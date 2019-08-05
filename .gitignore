@@ -11,3 +11,5 @@
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
 .history
+
+__pycache__
