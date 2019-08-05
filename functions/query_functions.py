@@ -1,11 +1,13 @@
 import pypyodbc
 import pandas as pd
+from keys import *
 
+steemsql_key = 'uid=Steemit-memehub;pwd=SQfnswpR2GWnenXcTMbz'
 def query_steemsql(query):
     connection = pypyodbc.connect('Driver={ODBC Driver 17 for SQL Server};'
                                 'Server=sql.steemsql.com;'
                                 'Database=DBSteem;'
-                                'uid=Steemit-memehub;pwd=SQfnswpR2GWnenXcTMbz')
+                                'uid='+uid+';pwd='+pwd)
     cursor = connection.cursor()
 
     data = cursor.execute(query).fetchall()

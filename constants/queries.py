@@ -1,5 +1,5 @@
 query_posts = '''
-SELECT
+SELECT TOP 0
 	url,
     CAST(active_votes AS NTEXT) as votes,
     total_pending_payout_value
