@@ -25,8 +25,6 @@ account.transfer("receiving_account_name_here", "0.001", "STEEM", "Beem Programi
 # %%
 # example of querying the blockchain directly
 current_num = chain.get_current_block_num()
-ops = []
-df = pd.DataFrame()
 current_num = chain.get_current_block_num()
 for operation in chain.stream(start=current_num - 99, stop=current_num):
     print(operation)
