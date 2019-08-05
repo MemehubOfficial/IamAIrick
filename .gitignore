@@ -1,6 +1,11 @@
-# hide steemsql keys
+# hide steemsql connection keys
 /keys.py
+
+#hide all csv files
 *.csv
+
+#ignore all python cache files
+__pycache__
 
 ### VisualStudioCode ###
 .vscode/*
@@ -12,5 +17,3 @@
 ### VisualStudioCode Patch ###
 # Ignore all local history of files
 .history
-
-__pycache__

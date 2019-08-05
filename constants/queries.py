@@ -1,3 +1,7 @@
+#define static queries
+
+#query posts no older than 7 days that have a downvote
+#return the url, active votes, and pending payout of posts
 query_posts = '''
 SELECT TOP 10
 	url,

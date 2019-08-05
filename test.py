@@ -1,30 +1,38 @@
 # %%
+#package imports
 import numpy as np
 import json
 import pprint
 import pandas as pd
+
+#custom file imports
 from functions.query_functions import query_steemsql
 from constants.queries import *
 from constants.bidbots import update_bidbots
 from constants.cleaners import *
 
 # %%
-# Queries Updates the saved CSV file
+# Queries steemsql and Updates the saved CSV file
+
 df = query_steemsql(query_posts)
 df.to_csv('comments.cvs', encoding='utf-8', index=False)
 
 # %%
-# reads in the saved CSV file
+# reads in the saved CSV file if needed
+
 df = pd.read_csv('comments.cvs')
 print(len(df))
 
 # %%
-#updates bidbot array if needed
+#updates array of bidbot acct names if needed
+
 update_bidbots()
 bidbots = pd.read_csv('bidbots.cvs')
 
 #%%
-#assembles an array of indexes by bidbot votes
+#assembles an array of indexes of posts
+#with bidbot votes
+
 arr = []
 for i in range(len(df.index)):
     for bot in bidbots:
@@ -35,12 +43,14 @@ print(arr)
 
 #%%
 #filter dataframe by bidbot index array
+
 df = df.iloc[arr]
 df = df.reset_index(drop=True)
 print(df.head())
 
 #%%
-#assemble array of indexes by cleaner votes
+#assemble array of indexes of posts with cleaner votes
+
 arr = []
 for i in range(len(df.index)):
     for cleaner in cleaners:
@@ -51,16 +61,13 @@ print(arr)
 
 #%%
 #filter dataframe by cleaner index array
+
 df = df.iloc[arr]
 df = df.reset_index(drop=True)
 print(df.head())
 
 #%%
-
-print(df['votes'])
-
-#%%
-#search downvoters
+#search and compile list of down voters
 down_voters = []
 dic = df['votes'].to_dict()
 print(dic[2334])
@@ -78,6 +85,3 @@ dv = list(dict.fromkeys(down_voters))
 indices = list(dict.fromkeys(idx))
 pprint.pprint(dv)
 pprint.pprint(indices)
-
-
-#%%
