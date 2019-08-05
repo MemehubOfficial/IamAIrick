@@ -1,0 +1,1 @@
+cleaners = ['steemflagrewards', 'cheetah', 'steemcleaners', 'mack-bot', 'mack-botjs', 'spaminator']
