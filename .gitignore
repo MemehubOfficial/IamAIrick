@@ -1,5 +1,6 @@
 # hide steemsql keys
 /keys.py
+*.csv
 
 ### VisualStudioCode ###
 .vscode/*
