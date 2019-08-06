@@ -1,16 +1,26 @@
 #define static queries
 from constants.cleaners import *
-import stringutils
 
 #query posts no older than 7 days that have a downvote
-#return the url, active votes, and pending payout of posts
 #approx min 6 query run time
-def query_posts():
+def posts_cleaner_downvote():
 	q = '''
 		SELECT
 			url,
+			Comments.author,
+			Comments.permlink,
+			category,
+			title,
+			body,
+			json_metadata,
+			created,
+			total_payout_value,
+			beneficiaries,
+			total_pending_payout_value,
 			CAST(active_votes AS NTEXT) as votes,
-			total_pending_payout_value
+			replies,
+			CONVERT(int,(SELECT MAX(v) FROM (VALUES(log10(ABS(CONVERT(bigint,author_reputation)-1)) - 9),(0)) T(v)) * SIGN(author_reputation) * 9 + 25) as rep,
+			body_length
 		FROM
 			Comments
 			INNER JOIN TxVotes ON 
