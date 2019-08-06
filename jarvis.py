@@ -10,6 +10,8 @@ from functions.query_functions import query_steemsql
 from constants.queries import query_posts
 from constants.bidbots import update_bidbots
 from constants.cleaners import *
+from functions.dataframe_functions import filter_by_voter
+from functions.dataframe_functions import extract_downvoter_list
 
 # %%
 # Queries steemsql and Updates the saved CSV file
@@ -28,5 +30,8 @@ print(len(df))
 
 update_bidbots()
 bidbots = pd.read_csv('bidbots.csv')
+
+#%%
+print(extract_downvoter_list(df))
 
 #%%

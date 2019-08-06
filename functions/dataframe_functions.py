@@ -1,9 +1,10 @@
 import json
 
-
 def filter_by_voter(dataframe, voters):
     #assembles an array of indexes of posts
-    #with 
+    #where there are votes from the voters
+    #then filters the dataframe by those indexs
+    #returns modified dataframe
     arr = []
     for i in range(len(dataframe.index)):
         for voter in voters:
@@ -13,6 +14,7 @@ def filter_by_voter(dataframe, voters):
     #filter dataframe by index array
     dataframe = dataframe.iloc[arr]
     dataframe = dataframe.reset_index(drop=True)
+    
     return dataframe
 
 def extract_downvoter_list(dataframe):
@@ -20,7 +22,6 @@ def extract_downvoter_list(dataframe):
     down_voters = []
     dic = dataframe['votes'].to_dict()
     for i in range(len(dic)):
-        print(i)
         dic_votes = json.loads(dic[i])
         for j in range(len(dic_votes)):
             if dic_votes[j]['percent']<0:
@@ -28,4 +29,5 @@ def extract_downvoter_list(dataframe):
     #%%
     #remove duplicates
     down_voters = list(dict.fromkeys(down_voters))
+
     return down_voters
