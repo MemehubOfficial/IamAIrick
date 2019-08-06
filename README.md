@@ -5,4 +5,5 @@ You will need to be able to run jupiter notebooks to run the cells of code of py
 To set up the keys.py file, here is exactly what to put in the file:
 
 uid = 'steemql_userid'
+
 pwd = 'steemsql_password'
