@@ -4,6 +4,7 @@ import stringutils
 
 #query posts no older than 7 days that have a downvote
 #return the url, active votes, and pending payout of posts
+#approx min 6 query run time
 def query_posts():
 	q = '''
 		SELECT
