@@ -15,7 +15,7 @@ from constants.cleaners import *
 # Queries steemsql and Updates the saved CSV file
 
 df = query_steemsql(query_posts())
-df.to_csv('comments.cvs', encoding='utf-8', index=False)
+df.to_csv('comments.csv', encoding='utf-8', index=False)
 
 # %%
 # reads in the saved CSV file if needed
