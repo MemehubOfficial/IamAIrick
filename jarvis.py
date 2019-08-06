@@ -7,14 +7,14 @@ import pandas as pd
 
 #custom file imports
 from functions.query_functions import query_steemsql
-from constants.queries import *
+from constants.queries import query_posts
 from constants.bidbots import update_bidbots
 from constants.cleaners import *
 
 # %%
 # Queries steemsql and Updates the saved CSV file
 
-df = query_steemsql(query_posts)
+df = query_steemsql(query_posts())
 df.to_csv('comments.cvs', encoding='utf-8', index=False)
 
 # %%
@@ -70,7 +70,6 @@ print(df.head())
 #search and compile list of down voters
 down_voters = []
 dic = df['votes'].to_dict()
-print(dic[2334])
 idx = []
 for i in range(len(dic)):
     print(i)
@@ -85,3 +84,5 @@ dv = list(dict.fromkeys(down_voters))
 indices = list(dict.fromkeys(idx))
 pprint.pprint(dv)
 pprint.pprint(indices)
+
+#%%
