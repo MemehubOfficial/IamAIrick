@@ -1,4 +1,4 @@
-# Jarvis
+# Look Morty! I tuned myself in an AI, Morty. Morty Look, I am AI Rick!!
 
 The purpose of this program is the progressive building of a machine learning algo to make predictions for the steem blockchain with regards to abuse and botnets.
 
