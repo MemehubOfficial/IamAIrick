@@ -32,3 +32,14 @@ def extract_downvoter_list(dataframe):
     down_voters = list(dict.fromkeys(down_voters))
 
     return down_voters
+
+def downvoted_index(dataframe):
+    idx = []
+    posts_votes = dataframe['votes'].to_dict()
+    for i in range(len(posts_votes)):
+        post_votes = json.loads(posts_votes[i])
+        for j in range(len(post_votes)):
+            if post_votes[j]['percent'] < 0:
+                idx.append(i)
+            #post_vote = post_votes[j]['voter']
+    return list(dict.fromkeys(idx))

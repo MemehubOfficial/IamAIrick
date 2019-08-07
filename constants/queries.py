@@ -31,7 +31,7 @@ def posts_cleaner_downvote():
 	return q
 
 #query comments on a post
-def comment_comments(parent_author, parent_permlink):
+def query_cleaner_comments(parent_author, parent_permlink):
 	u = '''
 		SELECT
 			Comments.author,
@@ -50,5 +50,6 @@ def comment_comments(parent_author, parent_permlink):
 		WHERE
 			Comments.parent_author = '''+'\'' +parent_author+'\'' +'''
 			AND Comments.parent_permlink = '''+'\'' +parent_permlink+'\'' +'''
+			AND Comments.author IN (''' + '\''+ '\',\''.join(cleaners) + '\'' + ''')
 		'''
 	return u
