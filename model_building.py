@@ -8,6 +8,7 @@ import pandas as pd
 #custom file imports
 from functions.query_functions import query_steemsql
 from constants.queries import posts_cleaner_downvote
+from constants.queries import comment_comments
 from constants.bidbots import update_bidbots
 from functions.dataframe_functions import filter_by_voter
 from functions.dataframe_functions import extract_downvoter_list
@@ -28,10 +29,38 @@ df.to_csv('comments.csv', encoding='utf-8', index=False)
 df = pd.read_csv('comments.csv')
 
 #%%
-
-suspects = list(dict.fromkeys(df[df['rep']<25]['author']))
+idx = []
+posts_votes = df['votes'].to_dict()
+for i in range(len(posts_votes)):
+    post_votes = json.loads(posts_votes[i])
+    for j in range(len(post_votes)):
+        if post_votes[j]['percent'] < 0:
+            idx.append(i)
+        post_vote = post_votes[j]['voter']
+    
+pprint.pprint(list(idx))
 
 #%%
-print(suspects)
+print(len(df))
+
+#%%
+comments = pd.DataFrame()
+for i in range(len(df.index)):
+    comments = comments.append(query_steemsql(comment_comments(df['author'][i], df['permlink'][i])))
+
+
+#%%
+pprint.pprint(comments['body'])
+#%%
+from constants.cleaners import *
+
+#%%
+cleaner_comments = pd.DataFrame()
+for cleaner in cleaners:
+    tmp = comments.loc[comments['author'] == cleaner]
+    cleaner_comments.append(tmp)
+
+pprint.pprint(cleaner_comments.head())
+
 
 #%%
