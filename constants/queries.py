@@ -23,7 +23,7 @@ def posts_cleaner_downvote():
 			Comments
 			INNER JOIN TxVotes ON 
 				TxVotes.author = Comments.author AND TxVotes.permlink = Comments.permlink
-				AND TxVotes.voter IN (''' + '\''+ '\',\''.join(cleaners) + '\'' + ''')
+				AND TxVotes.voter IN ('steemflagrewards')
 		WHERE
 			Comments.depth = 0
 			AND Comments.created > DATEADD(day, -14, GETUTCDATE())

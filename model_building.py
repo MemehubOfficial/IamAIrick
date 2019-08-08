@@ -21,9 +21,7 @@ bidbots = pd.read_csv('bidbots.csv')
 # %%
 # Queries steemsql and Updates the saved CSV file
 # approx 7min query time
-connection = open_connection()
-df = query_steemsql(posts_cleaner_downvote(), connection)
-connection.close()
+df = query_steemsql(posts_cleaner_downvote())
 df.to_csv('comments.csv', encoding='utf-8', index=False)
 
 # %%
@@ -35,16 +33,18 @@ df = pd.read_csv('comments.csv')
 downvoted = df.iloc[downvoted_index(df)]
 downvoted = downvoted.reset_index(drop=True)
 
+#$$
+pprint.pprint(downvoted)
 #%%
-#5k posts takes about 3hrs to query
+# for 5k posts takes about 3hrs to query
+# all comments by cleaners
 now = time.time()
-connection = open_connection()
 comments = pd.DataFrame()
 for i in range(len(downvoted.index)):
-    comments = comments.append(query_steemsql(query_cleaner_comments(downvoted['author'][i], downvoted['permlink'][i]), connection))
+    comments = comments.append(query_steemsql(query_cleaner_comments(downvoted['author'][i], downvoted['permlink'][i])))
 comments = comments.reset_index(drop=True)
 
-connection.close()
+
 query_time = time.time() - now
 print("Query Time was: "+stopWatch(query_time))
 print("The number of entries found: "+str(len(comments.index)))
@@ -54,6 +54,9 @@ print("The number of entries found: "+str(len(comments.index)))
 pprint.pprint(comments.index)
 #%%
 from constants.cleaners import *
+
+# %%
+pprint.pprint(list(dict.fromkeys(comments['author'])))
 
 #%%
 cleaner_comments = pd.DataFrame()

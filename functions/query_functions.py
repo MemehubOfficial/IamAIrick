@@ -12,18 +12,20 @@ def open_connection():
 
 #Queries steemsql with the query passed as a param
 #returns query data as a dataframe
-def query_steemsql(query, connection):
+def query_steemsql(query):
     now = time.time()
+
+    connection = open_connection()
 
     # cursor = connection.cursor()
     # data = cursor.execute(query).fetchall()
     # dataframe = pd.DataFrame(data)
 
     dataframe = pd.read_sql(query, connection)
-    connection.commit()
+
+    connection.close()
 
     if dataframe.empty:
-        connection.close()
         print("Query is empty")
         return None
     # else:
