@@ -1,6 +1,6 @@
 import json
 
-def filter_by_voter(dataframe, voters):
+def filter_by_voters(dataframe, voters):
     #assembles an array of indexes of posts
     #where there are votes from the voters
     #then filters the dataframe by those indexs
@@ -19,7 +19,7 @@ def filter_by_voter(dataframe, voters):
     
     return dataframe
 
-def extract_downvoter_list(dataframe):
+def get_downvoters(dataframe):
     #search, compile, and return list of down voter usernames
     down_voters = []
     dic = dataframe['votes'].to_dict()
@@ -33,7 +33,7 @@ def extract_downvoter_list(dataframe):
 
     return down_voters
 
-def downvoted_index(dataframe):
+def get_downvoted_index(dataframe):
     idx = []
     posts_votes = dataframe['votes'].to_dict()
     for i in range(len(posts_votes)):

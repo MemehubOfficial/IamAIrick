@@ -3,7 +3,7 @@ from constants.cleaners import *
 
 #query posts no older than 7 days that have a downvote
 #approx min 6 query run time
-def posts_cleaner_downvote():
+def posts_cleaner_vote():
 	q = '''
 		SELECT
 			url,
@@ -31,8 +31,8 @@ def posts_cleaner_downvote():
 	return q
 
 #query comments on a post
-def query_cleaner_comments(parent_author, parent_permlink):
-	u = '''
+def cleaner_comments_on_post(parent_author, parent_permlink):
+	q = '''
 		SELECT
 			Comments.author,
 			Comments.permlink,
@@ -52,4 +52,4 @@ def query_cleaner_comments(parent_author, parent_permlink):
 			AND Comments.parent_permlink = '''+'\'' +parent_permlink+'\'' +'''
 			AND Comments.author IN (''' + '\''+ '\',\''.join(cleaners) + '\'' + ''')
 		'''
-	return u
+	return q

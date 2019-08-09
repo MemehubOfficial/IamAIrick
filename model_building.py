@@ -8,11 +8,12 @@ import time
 
 
 #custom file imports
-from functions.query_functions import query_steemsql, open_connection
-from constants.queries import query_cleaner_comments, posts_cleaner_downvote
+from functions.steemsql import steemsql
+import constants.query as query
 from constants.bidbots import update_bidbots
-from functions.dataframe_functions import filter_by_voter, downvoted_index, extract_downvoter_list
-from functions.stopWatch import stopWatch
+import functions.post as post
+import functions.func as func
+from markysBL import blacklist
 
 #updates array of bidbot acct names and loads it
 update_bidbots()
@@ -21,7 +22,7 @@ bidbots = pd.read_csv('bidbots.csv')
 # %%
 # Queries steemsql and Updates the saved CSV file
 # approx 7min query time
-df = query_steemsql(posts_cleaner_downvote())
+df = steemsql(query.posts_cleaner_vote())
 df.to_csv('comments.csv', encoding='utf-8', index=False)
 
 # %%
@@ -30,23 +31,32 @@ df.to_csv('comments.csv', encoding='utf-8', index=False)
 df = pd.read_csv('comments.csv')
 
 # %%
-downvoted = df.iloc[downvoted_index(df)]
+downvoted = df.iloc[post.get_downvoted_index(df)]
 downvoted = downvoted.reset_index(drop=True)
 
-#$$
-pprint.pprint(downvoted)
+#%%
+print(blacklist(downvoted['author'][1]))
+
+#%%
+idx = []
+for i in range(len(downvoted)):
+    bl = blacklist(downvoted['author'][i])
+    print(bl)
+    if bl == []:
+        idx.append(i)
+print(downvoted['author'].iloc[idx])
 #%%
 # for 5k posts takes about 3hrs to query
 # all comments by cleaners
 now = time.time()
 comments = pd.DataFrame()
 for i in range(len(downvoted.index)):
-    comments = comments.append(query_steemsql(query_cleaner_comments(downvoted['author'][i], downvoted['permlink'][i])))
+    comments = comments.append(steemsql(query.cleaner_comments_on_post(downvoted['author'][i], downvoted['permlink'][i])))
 comments = comments.reset_index(drop=True)
 
 
 query_time = time.time() - now
-print("Query Time was: "+stopWatch(query_time))
+print("Query Time was: "+func.stopWatch(query_time))
 print("The number of entries found: "+str(len(comments.index)))
 
 #%%

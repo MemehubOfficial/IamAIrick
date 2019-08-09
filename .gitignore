@@ -1,5 +1,5 @@
 # hide steemsql connection keys
-/keys.py
+/config.py
 
 #hide all csv files
 *.csv

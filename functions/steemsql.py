@@ -1,18 +1,18 @@
 import pandas as pd
-from functions.stopWatch import stopWatch
+import functions.func as func
 import time
-from keys import *
+import config
 import pypyodbc as db
 
 def open_connection():
     return db.connect('Driver={ODBC Driver 17 for SQL Server};'
                                 'Server=sql.steemsql.com;'
                                 'Database=DBSteem;'
-                                'uid='+uid+';pwd='+pwd)
+                                'uid='+config.steemsql_uid+';pwd='+config.steemsql_pwd)
 
 #Queries steemsql with the query passed as a param
 #returns query data as a dataframe
-def query_steemsql(query):
+def steemsql(query):
     now = time.time()
 
     connection = open_connection()
@@ -34,6 +34,6 @@ def query_steemsql(query):
     query_time = time.time() - now
 
     if query_time > 30:
-        print("Query Time was: "+stopWatch(query_time))
+        print("Query Time was: "+func.stopWatch(query_time))
     print("The number of entries found: "+str(len(dataframe.index)))
     return dataframe
