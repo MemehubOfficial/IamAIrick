@@ -14,6 +14,10 @@ To set up the config.py file, here is exactly what to put in the file:
 uid = 'your_steemql_userid'
 
 pwd = 'your_steemsql_password'
+
+passphrase = 'your_beempy_wallet_passphrase'
+
+stmacct = 'your_steem_account_username'
 ```
 
 ## Deployment
