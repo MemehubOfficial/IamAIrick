@@ -36,4 +36,4 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 
 * Steemian @arcange - *steemSQL*
 * Steemian @themarkymark - *blacklist api*
-* SteemFlagRewards @anthonyadavisii - *Pull ideas from his source code*
+* SteemFlagRewards @anthonyadavisii - *Pulling ideas from his source code*
