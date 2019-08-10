@@ -1,5 +1,3 @@
-#%%
-#!/usr/bin/python
 from beem import Steem
 from beem.account import Account
 from beem.rc import RC
@@ -28,8 +26,3 @@ def claim_acct_rc(test = False):
 def create_acct_rc(new_acct_name, new_acct_password, test = False):
     stm, account = start.steem(test)
     stm.create_claimed_account(new_acct_name, creator=account, password=new_acct_password)
-
-create_acct_rc('rick.c137', 'IamAIrick')
-
-
-#%%
