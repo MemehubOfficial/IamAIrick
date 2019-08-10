@@ -12,7 +12,7 @@ def posts_cleaner_vote():
 			category,
 			title,
 			body,
-			json_metadata,
+			CAST(json_metadata AS NTEXT) as json_metadata,
 			created,
 			total_payout_value,
 			total_pending_payout_value,
@@ -23,7 +23,35 @@ def posts_cleaner_vote():
 			Comments
 			INNER JOIN TxVotes ON 
 				TxVotes.author = Comments.author AND TxVotes.permlink = Comments.permlink
-				AND TxVotes.voter IN ('steemflagrewards')
+				AND TxVotes.voter IN (''' + '\''+ '\',\''.join(cleaners) + '\'' + ''')
+		WHERE
+			Comments.depth = 0
+			AND Comments.created > DATEADD(day, -14, GETUTCDATE())
+		'''
+	return q
+
+
+def posts_by_voter(voter):
+	q = '''
+		SELECT
+			url,
+			Comments.author,
+			Comments.permlink,
+			category,
+			title,
+			body,
+			CAST(json_metadata AS NTEXT) as json_metadata,
+			created,
+			total_payout_value,
+			total_pending_payout_value,
+			CAST(active_votes AS NTEXT) as votes,
+			CONVERT(int,(SELECT MAX(v) FROM (VALUES(log10(ABS(CONVERT(bigint,author_reputation)-1)) - 9),(0)) T(v)) * SIGN(author_reputation) * 9 + 25) as rep,
+			body_length
+		FROM
+			Comments
+			INNER JOIN TxVotes ON 
+				TxVotes.author = Comments.author AND TxVotes.permlink = Comments.permlink
+				AND TxVotes.voter = '''+'\''+voter+'\''+'''
 		WHERE
 			Comments.depth = 0
 			AND Comments.created > DATEADD(day, -14, GETUTCDATE())
@@ -38,7 +66,7 @@ def cleaner_comments_on_post(parent_author, parent_permlink):
 			Comments.permlink,
 			url,
 			body,
-			json_metadata,
+			CAST(json_metadata AS NTEXT) as json_metadata,
 			created,
 			total_payout_value,
 			total_pending_payout_value,

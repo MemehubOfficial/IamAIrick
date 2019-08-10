@@ -12,7 +12,7 @@ def open_connection():
 
 #Queries steemsql with the query passed as a param
 #returns query data as a dataframe
-def steemsql(query):
+def query(query):
     now = time.time()
 
     connection = open_connection()
@@ -37,3 +37,4 @@ def steemsql(query):
         print("Query Time was: "+func.stopWatch(query_time))
     print("The number of entries found: "+str(len(dataframe.index)))
     return dataframe
+

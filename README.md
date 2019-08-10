@@ -8,12 +8,12 @@ You will need to be able to run jupyter notebooks for the program in its current
 
 ### Installing
 
-To set up the keys.py file, here is exactly what to put in the file inserting your steemSQL id and password:
+To set up the config.py file, here is exactly what to put in the file:
 
 ```
-uid = 'steemql_userid'
+uid = 'your_steemql_userid'
 
-pwd = 'steemsql_password'
+pwd = 'your_steemsql_password'
 ```
 
 ## Deployment
@@ -35,3 +35,5 @@ This project is licensed under the MIT License - see the [LICENSE.md](LICENSE.md
 ## Acknowledgments
 
 * Steemian @arcange - *steemSQL*
+* Steemian @themarkymark - *blacklist api*
+* SteemFlagRewards @anthonyadavisii - *Pull ideas from his source code*
