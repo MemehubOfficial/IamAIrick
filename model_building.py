@@ -12,25 +12,26 @@ import constants.query as q
 from classes.Posts import Posts
 import functions.func as func
 
-#Specific custom imports
-from constants.bidbots import update_bidbots
-
-#updates array of bidbot acct names and loads it
-update_bidbots()
-bidbots = pd.read_csv('bidbots.csv')
-
 # %%
 # Queries steemsql and Updates the saved CSV file
 # approx 7min query time
-df = steemsql.query(q.posts_by_voter('steemflagrewards'))
-sfr_voted = Posts(df)
-sfr_voted.df.to_csv('comments.csv', encoding='utf-8', index=False)
+df = steemsql.query(q.posts_cleaner_downvoted())
+cleaner_downvoted = Posts(df)
+cleaner_downvoted.df.to_csv('csv/comments.csv', encoding='utf-8', index=False)
 #%%
-sfr_voted = Posts(pd.read_csv('comments.csv'))
+cleaner_downvoted = Posts(pd.read_csv('csv/comments.csv'))
 
 #%%
-sfr_voted.preprocessing()
-sfr_voted.df.to_csv('comments.csv', encoding='utf-8', index=False)
+pprint.pprint(list(dict.fromkeys(cleaner_downvoted.df['author'])))
+
+#%%
+for i in range(len(cleaner_downvoted.df.index)):
+    if cleaner_downvoted.df['replies'][i] != '[]':
+        pprint.pprint(cleaner_downvoted.df['replies'][i])
+
+#%%
+cleaner_downvoted.preprocessing()
+cleaner_downvoted.df.to_csv('csv/comments.csv', encoding='utf-8', index=False)
 
 #%%
 sfr_voted.df.head()
