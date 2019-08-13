@@ -28,7 +28,7 @@ log = logging.getLogger(__name__)
 logging.basicConfig(level=logging.INFO)
 
 
-def meme_engine(stm, account):
+def meme_cortex(stm, account):
     memes = steemsql.query(q.memes_bidbotted())
 
     found = False
