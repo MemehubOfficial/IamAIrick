@@ -4,7 +4,7 @@ The purpose of this program is the progressive building of a machine learning al
 
 ### Installing
 
-Clone this repo. CD into dirtory.
+Clone this repo. CD into directory.
 
 `pip install r requirements.txt`
 
