@@ -1,12 +1,10 @@
 #define static queries
-from constants.cleaners import *
 import pandas as pd
 import config
-from constants.bidbots import update_bidbots
+from constants.bidbots import bidbots
 
 #updates array of bidbot acct names and loads it
-update_bidbots()
-bidbots = pd.read_csv('bidbots.csv')
+bidbots = bidbots()
 
 #query posts no older than 7 days that have a downvote
 #approx min 6 query run time
@@ -31,7 +29,7 @@ def posts_cleaner_downvoted():
 			Comments
 			INNER JOIN TxVotes ON 
 				TxVotes.author = Comments.author AND TxVotes.permlink = Comments.permlink
-				AND TxVotes.voter IN (''' + '\''+ '\',\''.join(cleaners) + '\'' + ''')
+				AND TxVotes.voter IN (''' + '\''+ '\',\''.join(config.cleaners) + '\'' + ''')
 				AND TxVotes.weight < 0
 		WHERE
 			Comments.depth = 0
@@ -42,29 +40,26 @@ def posts_cleaner_downvoted():
 
 def memes_bidbotted():
 	q = '''
-		SELECT
-			url,
+		SELECT DISTINCT
 			Comments.author,
 			Comments.permlink,
-			category,
-			title,
-			body,
-			CAST(json_metadata AS NTEXT) as json_metadata,
-			created,
-			total_payout_value,
-			total_pending_payout_value,
-			CAST(active_votes AS NTEXT) as votes,
+			pending_payout_value,
 			CONVERT(int,(SELECT MAX(v) FROM (VALUES(log10(ABS(CONVERT(bigint,author_reputation)-1)) - 9),(0)) T(v)) * SIGN(author_reputation) * 9 + 25) as rep,
 			body_length
 		FROM
 			Comments
-			INNER JOIN TxVotes ON 
-				TxVotes.voter IN (''' + '\''+ '\',\''.join(bidbots) + '\'' + ''')
+			INNER JOIN TxVotes ON
+				TxVotes.author = Comments.author
+				AND TxVotes.permlink = Comments.permlink
+				AND TxVotes.voter IN (''' + '\''+ '\',\''.join(bidbots) + '\'' + ''')
 		WHERE
 			Comments.depth = 0
 			AND Comments.created < DATEADD(minute, -15, GETUTCDATE())
 			AND Comments.created > DATEADD(day, -7, GETUTCDATE())
 			AND Comments.category IN (''' + '\''+ '\',\''.join(config.meme_tags) + '\'' + ''')
+			AND pending_payout_value > 10
+			AND Comments.active_votes NOT LIKE '%rick.c137%'
+		ORDER BY pending_payout_value DESC
 		'''
 	return q
 
@@ -116,6 +111,6 @@ def cleaner_comments_on_post(parent_author, parent_permlink):
 		WHERE
 			Comments.parent_author = '''+'\'' +parent_author+'\'' +'''
 			AND Comments.parent_permlink = '''+'\'' +parent_permlink+'\'' +'''
-			AND Comments.author IN (''' + '\''+ '\',\''.join(cleaners) + '\'' + ''')
+			AND Comments.author IN (''' + '\''+ '\',\''.join(config.cleaners) + '\'' + ''')
 		'''
 	return q

@@ -2,31 +2,37 @@
 
 The purpose of this program is the progressive building of a machine learning algo to make predictions for the steem blockchain with regards to abuse and botnets.
 
-### Prerequisites
-
-You will need to be able to run jupyter notebooks for the program in its current state.
-
 ### Installing
+
+Clone this repo. CD into dirtory.
+
+`pip install r requirements.txt`
 
 To set up the config.py file, here is exactly what to put in the file:
 
 ```
-uid = 'your_steemql_userid'
+default_stmacct = 'your_steem_account_username'
+default_passphrase = 'your_beempy_wallet_passphrase'
 
-pwd = 'your_steemsql_password'
+steemsql_uid = 'your_steemql_userid'
+steemsql_pwd = 'your_steemsql_password'
 
-passphrase = 'your_beempy_wallet_passphrase'
+meme_tags = ['memes', 'meme', 'memestagram', 'memeday', 'memechallenge']
 
-stmacct = 'your_steem_account_username'
+#set test = False for mainnet
+test = True
+
+#manually set array of cleaner names
+cleaners = ['steemflagrewards', 'cheetah', 'steemcleaners', 'mack-bot', 'mack-botjs', 'spaminator']
 ```
 
 ## Deployment
 
-This program is not deployable yet.
+run `AIrick.py` in CLI
 
 ## Versioning
 
-The current version is working on getting the proper steemSQL queries designed to construct desired data sets.
+This first version downvotes and comments on active bidboted meme posts with pending payout greater than $10.
 
 ## Authors
 

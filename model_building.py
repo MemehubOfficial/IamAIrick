@@ -15,14 +15,14 @@ import functions.func as func
 # %%
 # Queries steemsql and Updates the saved CSV file
 # approx 7min query time
-df = steemsql.query(q.posts_cleaner_downvoted())
+df = steemsql.query(q.memes_bidbotted())
 cleaner_downvoted = Posts(df)
 cleaner_downvoted.df.to_csv('csv/comments.csv', encoding='utf-8', index=False)
 #%%
 cleaner_downvoted = Posts(pd.read_csv('csv/comments.csv'))
 
 #%%
-pprint.pprint(list(dict.fromkeys(cleaner_downvoted.df['author'])))
+cleaner_downvoted.df.head()
 
 #%%
 for i in range(len(cleaner_downvoted.df.index)):
