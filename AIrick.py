@@ -3,7 +3,7 @@ from beem import Steem
 from beem.account import Account
 import steem.start as start
 import time
-from memes import meme_cortex
+from brain.memes import meme_cortex
 
 stm, account = start.steem()
 

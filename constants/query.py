@@ -44,6 +44,7 @@ def memes_bidbotted():
 			Comments.author,
 			Comments.permlink,
 			pending_payout_value,
+			total_pending_payout_value,
 			CONVERT(int,(SELECT MAX(v) FROM (VALUES(log10(ABS(CONVERT(bigint,author_reputation)-1)) - 9),(0)) T(v)) * SIGN(author_reputation) * 9 + 25) as rep,
 			body_length
 		FROM
@@ -57,10 +58,10 @@ def memes_bidbotted():
 			AND Comments.created < DATEADD(minute, -15, GETUTCDATE())
 			AND Comments.created > DATEADD(day, -7, GETUTCDATE())
 			AND Comments.category IN (''' + '\''+ '\',\''.join(config.meme_tags) + '\'' + ''')
-			AND pending_payout_value > 10
-			AND Comments.active_votes NOT LIKE '%rick.c137%'
+			AND pending_payout_value > 5
 		ORDER BY pending_payout_value DESC
 		'''
+	print(q)
 	return q
 
 def posts_by_voter(voter):
