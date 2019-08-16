@@ -8,7 +8,7 @@ import torchvision.transforms as transform
 
 torch.set_printoptions(linewidth = 120)
 
-class Network(nn.Module):
+class DQN(nn.Module):
     def __init__(self):
         super(Network, self).__init__()
         self.conv1= nn.Conv2d(in_channels = 1, out_channels = 6, kernel_size = 5)
