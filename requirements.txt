@@ -144,7 +144,7 @@ pycrypto==2.6.1
 pycryptodomex==3.8.2
 pycurl==7.43.0.3
 pyflakes==2.1.1
-Pygments==2.4.2
+Pygments==2.7.4
 pylibscrypt==1.8.0
 pylint==2.3.1
 pyodbc==4.0.26
